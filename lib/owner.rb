@@ -1,72 +1,64 @@
 class Owner
-  @@all= []
+  # code goes here
+end 
   attr_accessor :name, :pets
   attr_reader :species
 
-  def initialize(species)
-    @species = species
-    @@all << self
-    @pets = { :dogs => [], :cats => []}
+@@owners = []
+
+  def initialize(name)
+    @name = name
+    @species = "human"
+    @@owners << self
+    @pets = { dogs: [], cats: []}
+  end
+
+  def self.all
+    @@owners
+  end
+
+  def self.reset_all
+    self.all.clear
+  end
+
+  def self.count
+    self.all.count
   end
 
   def say_species
-    return "I am a #{@species}."
+    "I am a #{@species}."
   end
 
-  def buy_dog(name_of_dog)
-    @pets[:dogs] << Dog.new(name_of_dog)
+  def buy_cat(cat_name)
+    pets[:cats] << Cat.new(cat_name)
   end
 
-  def buy_cat(name_of_cat)
-    @pets[:cats] << Cat.new(name_of_cat)
+  def buy_dog(dog_name)
+    pets[:dogs] << Dog.new(dog_name)
   end
 
   def walk_dogs
-    @pets.collect do |species, instances|
-      if species == :dogs
-        instances.each do |dog|
-          dog.mood = "happy"
-        end
-      end
+    pets[:dogs].each do |dog|
+      dog.mood = "happy"
     end
   end
 
   def play_with_cats
-    @pets.collect do |species, instances|
-      if species == :cats
-        instances.each do |cat|
-          cat.mood = "happy"
-        end
-      end
+    pets[:cats].each do |cat|
+      cat.mood = "happy"
     end
   end
 
   def sell_pets
-    @pets.collect do |species, instances|
-      instances.each do |pet|
-        pet.mood = "nervous"
-      end
-      instances.clear
+    pets.each do |species, animals|
+      animals.each do |animal|
+        animal.mood = "nervous"
+        end
+      animals.clear
     end
   end
 
   def list_pets
-    num_dogs = @pets[:dogs].size
-    num_cats = @pets[:cats].size
-   
-    return "I have #{num_dogs} dog(s) and #{num_cats} cat(s)."
-  end
-
-
-  def self.all
-    @@all
-  end
-
-  def self.reset_all
-    @@all.clear
-  end
-
-  def self.count
-    @@all.size
+    "I have  #{pets[:dogs].count} dog(s) and #{pets[:cats].count} cat(s)."
   end
 end
